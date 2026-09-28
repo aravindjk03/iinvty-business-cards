@@ -11,9 +11,9 @@ Official digital business cards for the **IINVTY** team.
 
 ## Features:
 - Horizontal 7:4 landscape executive business card on desktop/tablets.
-- Mobile-optimized responsive layout for smartphones.
+- Mobile-optimized responsive layout for smartphones with 48px+ touch targets.
 - Dedicated Website link icon (`https://iinvty.com`).
-- Direct WhatsApp, LinkedIn, Instagram, and Email buttons.
-- vCard 3.0 (.vcf) contact generation and auto slide-up bottom sheet.
-- Official IINVTY logo watermark in the background of the white layer.
+- Direct LinkedIn (`https://www.linkedin.com/company/iinvt`), Instagram (`https://www.instagram.com/iinvtycorporate`), and Email direct buttons.
+- Bulletproof Save Contact system: static `.vcf` download for Android/Desktop, native Data URI opener for iOS Safari, and local Blob fallback.
+- Centered official IINVTY logo watermark in the background of the white panel.
 - 100% self-contained single-file HTML (offline-ready with embedded base64 assets).

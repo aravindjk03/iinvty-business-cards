@@ -12,11 +12,10 @@ const TEAM_MEMBERS = [
     name: 'Sathya Narayan',
     title: 'Audit and Training Wing Head',
     email: 'iinvtycorporate@gmail.com',
-    phone: '+91 98765 43210',
-    whatsapp: '919876543210',
+    phone: '+91 94441 00968',
     website: 'https://iinvty.com',
-    linkedin: 'https://www.linkedin.com/company/iinvty',
-    instagram: 'https://www.instagram.com/iinvty',
+    linkedin: 'https://www.linkedin.com/company/iinvt',
+    instagram: 'https://www.instagram.com/iinvtycorporate',
     photo: '',
     initials: 'SN',
     firstName: 'Sathya'
@@ -27,11 +26,10 @@ const TEAM_MEMBERS = [
     name: 'Prabhakaran',
     title: 'Customer Relationship Head',
     email: 'iinvtycorporate@gmail.com',
-    phone: '+91 98765 43211',
-    whatsapp: '919876543211',
+    phone: '+91 94441 00968',
     website: 'https://iinvty.com',
-    linkedin: 'https://www.linkedin.com/company/iinvty',
-    instagram: 'https://www.instagram.com/iinvty',
+    linkedin: 'https://www.linkedin.com/company/iinvt',
+    instagram: 'https://www.instagram.com/iinvtycorporate',
     photo: '',
     initials: 'P',
     firstName: 'Prabhakaran'
@@ -42,16 +40,41 @@ const TEAM_MEMBERS = [
     name: 'Aravind J',
     title: 'Design & Innovation Lead',
     email: 'iinvtycorporate@gmail.com',
-    phone: '+91 98765 43212',
-    whatsapp: '919876543212',
+    phone: '+91 94441 00968',
     website: 'https://iinvty.com',
-    linkedin: 'https://www.linkedin.com/company/iinvty',
-    instagram: 'https://www.instagram.com/iinvty',
+    linkedin: 'https://www.linkedin.com/company/iinvt',
+    instagram: 'https://www.instagram.com/iinvtycorporate',
     photo: '',
     initials: 'AJ',
     firstName: 'Aravind'
   }
 ];
+
+function generateVCardContent(member) {
+  const nameParts = member.name.trim().split(/\s+/);
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+  
+  const lines = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    `FN:${member.name}`,
+    `N:${lastName};${firstName};;;`,
+    'ORG:IINVTY',
+    `TITLE:${member.title || ''}`,
+    `TEL;TYPE=WORK,VOICE,PREF:${member.phone || '+91 94441 00968'}`,
+    `EMAIL;TYPE=INTERNET,WORK,PREF:${member.email || 'iinvtycorporate@gmail.com'}`,
+    `URL;TYPE=WORK:${member.website || 'https://iinvty.com'}`,
+    `URL;TYPE=LinkedIn:${member.linkedin || 'https://www.linkedin.com/company/iinvt'}`,
+    `X-SOCIALPROFILE;TYPE=linkedin:${member.linkedin || 'https://www.linkedin.com/company/iinvt'}`,
+    `URL;TYPE=Instagram:${member.instagram || 'https://www.instagram.com/iinvtycorporate'}`,
+    `X-SOCIALPROFILE;TYPE=instagram:${member.instagram || 'https://www.instagram.com/iinvtycorporate'}`,
+    'NOTE:IINVTY - INVENT • INNOVATE • INSPIRE (Sustainable Workplace Solutions & ESG Consulting)',
+    `REV:${new Date().toISOString()}`,
+    'END:VCARD'
+  ];
+  return lines.join('\r\n') + '\r\n';
+}
 
 function generateCardHtml(member) {
   return `<!DOCTYPE html>
@@ -324,6 +347,7 @@ function generateCardHtml(member) {
         overflow: hidden;
       }
 
+      /* Centered Background Watermark */
       .white-layer-watermark {
         position: absolute;
         left: 50%;
@@ -409,7 +433,7 @@ function generateCardHtml(member) {
         text-overflow: ellipsis;
       }
 
-      /* Row of Five Round Blue Buttons with White Icons */
+      /* Row of Four Round Blue Buttons (Website, LinkedIn, Instagram, Email) */
       .icon-button-row {
         display: flex;
         align-items: center;
@@ -463,7 +487,7 @@ function generateCardHtml(member) {
 
     /* ==========================================================
        MOBILE VIEW (Phones <= 580px width)
-       Touch-friendly vertical card layout with 44px+ touch targets
+       Touch-friendly vertical card layout with 46px+ touch targets
        ========================================================== */
     @media (max-width: 580px) {
       body {
@@ -614,6 +638,7 @@ function generateCardHtml(member) {
         overflow: hidden;
       }
 
+      /* Centered Background Watermark on Mobile */
       .white-layer-watermark {
         position: absolute;
         left: 50%;
@@ -694,19 +719,19 @@ function generateCardHtml(member) {
         text-overflow: ellipsis;
       }
 
-      /* 5 Large touch buttons for mobile */
+      /* 4 Large touch buttons for mobile */
       .icon-button-row {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
+        gap: 14px;
         width: 100%;
         margin-bottom: 14px;
       }
 
       .round-blue-btn {
-        width: 46px;
-        height: 46px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         background: #0a3cff;
         color: #ffffff;
@@ -747,7 +772,7 @@ function generateCardHtml(member) {
       text-decoration: underline;
     }
 
-    /* Save Contact Full-Width Button */
+    /* Save Contact Button */
     .save-contact-container {
       width: 100%;
       margin-top: 18px;
@@ -768,8 +793,11 @@ function generateCardHtml(member) {
       justify-content: center;
       gap: 10px;
       cursor: pointer;
+      text-decoration: none;
       box-shadow: 0 8px 24px rgba(6, 26, 92, 0.28);
       transition: all 0.22s ease;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .save-contact-button:hover {
@@ -920,6 +948,12 @@ function generateCardHtml(member) {
       cursor: pointer;
       transition: all 0.2s ease;
       border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
     }
 
     .sheet-btn-later {
@@ -1026,7 +1060,7 @@ function generateCardHtml(member) {
 
         <!-- RIGHT / BOTTOM WHITE PANEL -->
         <div class="card-right">
-          <!-- Background IINVTY Logo Watermark on the White Layer -->
+          <!-- Centered Background IINVTY Logo Watermark on the White Layer -->
           <div class="white-layer-watermark" aria-hidden="true">
             <img src="${logoBase64}" alt="" />
           </div>
@@ -1046,7 +1080,7 @@ function generateCardHtml(member) {
             </a>
           </div>
 
-          <!-- Row of Five Round Blue Icon Buttons with White Icons -->
+          <!-- Row of Four Round Blue Icon Buttons (Website, LinkedIn, Instagram, Email) -->
           <div class="icon-button-row">
             <!-- 1. Separate Website Icon (Globe) -->
             <a href="${member.website}" id="btnWebsite" class="round-blue-btn" aria-label="Visit IINVTY Website" target="_blank" rel="noopener noreferrer" title="Website: iinvty.com">
@@ -1057,16 +1091,8 @@ function generateCardHtml(member) {
               </svg>
             </a>
 
-            <!-- 2. WhatsApp (wa.me link with digits only) -->
-            <a href="https://wa.me/${member.whatsapp}" id="btnWhatsapp" class="round-blue-btn" aria-label="Chat on WhatsApp" target="_blank" rel="noopener noreferrer" title="WhatsApp Chat">
-              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                <path d="M9.5 9a.5.5 0 0 0-.5.5v.5c0 2.2 1.8 4 4 4h.5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5l-1.2-.3a.5.5 0 0 0-.5.2l-.4.5a3.8 3.8 0 0 1-1.3-1.3l.5-.4a.5.5 0 0 0 .2-.5l-.3-1.2A.5.5 0 0 0 9.5 9z" fill="#ffffff"></path>
-              </svg>
-            </a>
-
-            <!-- 3. LinkedIn -->
-            <a href="${member.linkedin}" id="btnLinkedin" class="round-blue-btn" aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+            <!-- 2. LinkedIn (Official IINVTY Company Profile) -->
+            <a href="${member.linkedin}" id="btnLinkedin" class="round-blue-btn" aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer" title="LinkedIn: IINVTY">
               <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                 <rect x="2" y="9" width="4" height="12"></rect>
@@ -1074,8 +1100,8 @@ function generateCardHtml(member) {
               </svg>
             </a>
 
-            <!-- 4. Instagram -->
-            <a href="${member.instagram}" id="btnInstagram" class="round-blue-btn" aria-label="Instagram Profile" target="_blank" rel="noopener noreferrer" title="Instagram Profile">
+            <!-- 3. Instagram -->
+            <a href="${member.instagram}" id="btnInstagram" class="round-blue-btn" aria-label="Instagram Profile" target="_blank" rel="noopener noreferrer" title="Instagram: @iinvtycorporate">
               <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -1083,7 +1109,7 @@ function generateCardHtml(member) {
               </svg>
             </a>
 
-            <!-- 5. Email (mailto) -->
+            <!-- 4. Email (direct mailto) -->
             <a href="mailto:${member.email}" id="btnMailto" class="round-blue-btn" aria-label="Send Email Direct" title="Email: ${member.email}">
               <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="2"></rect>
@@ -1099,14 +1125,14 @@ function generateCardHtml(member) {
 
       <!-- FULL-WIDTH SAVE CONTACT BUTTON (UNDER THE CARD) -->
       <div class="save-contact-container">
-        <button type="button" class="save-contact-button" id="btnSaveContact" onclick="downloadVCard()">
+        <a href="${member.id}.vcf" download="${member.name}.vcf" class="save-contact-button" id="btnSaveContact" onclick="handleSaveContact(event, '${member.id}.vcf')">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
             <polyline points="17 21 17 13 7 13 7 21"></polyline>
             <polyline points="7 3 7 8 15 8"></polyline>
           </svg>
           <span>Save ${member.firstName}'s Contact</span>
-        </button>
+        </a>
 
         <div class="share-info-bar">
           <span>Card Link: <code>${member.filename}</code></span>
@@ -1134,7 +1160,7 @@ function generateCardHtml(member) {
       
       <div class="sheet-actions">
         <button type="button" class="sheet-btn sheet-btn-later" onclick="closeBottomSheet()">Later</button>
-        <button type="button" class="sheet-btn sheet-btn-save" onclick="downloadVCard(); closeBottomSheet();">Save</button>
+        <a href="${member.id}.vcf" download="${member.name}.vcf" class="sheet-btn sheet-btn-save" onclick="handleSaveContact(event, '${member.id}.vcf'); closeBottomSheet();">Save</a>
       </div>
     </div>
   </div>
@@ -1144,25 +1170,25 @@ function generateCardHtml(member) {
 
   <!-- ==========================================================
        JAVASCRIPT
-       ========================================================== */
+       ========================================================== -->
+  <script>
     const EMPLOYEE = {
+      id: ${JSON.stringify(member.id)},
       name: ${JSON.stringify(member.name)},
       title: ${JSON.stringify(member.title)},
       email: ${JSON.stringify(member.email)},
       phone: ${JSON.stringify(member.phone)},
-      whatsapp: ${JSON.stringify(member.whatsapp)},
       website: ${JSON.stringify(member.website)},
       linkedin: ${JSON.stringify(member.linkedin)},
       instagram: ${JSON.stringify(member.instagram)},
       photo: ${JSON.stringify(member.photo)}
     };
 
-    /* VCARD 3.0 GENERATOR (.VCF) */
-    function downloadVCard() {
+    /* VCARD 3.0 STRING BUILDER (.VCF) */
+    function getVCardString() {
       const nameParts = EMPLOYEE.name.trim().split(/\\s+/);
       const firstName = nameParts[0] || '';
       const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-      const whatsappDigits = (EMPLOYEE.whatsapp || '').replace(/[^0-9]/g, '');
 
       const lines = [
         'BEGIN:VCARD',
@@ -1171,33 +1197,48 @@ function generateCardHtml(member) {
         \`N:\${lastName};\${firstName};;;\`,
         'ORG:IINVTY',
         \`TITLE:\${EMPLOYEE.title || ''}\`,
-        \`TEL;TYPE=CELL,VOICE;TYPE=pref:\${EMPLOYEE.phone || ''}\`,
-        \`EMAIL;TYPE=INTERNET,WORK;TYPE=pref:\${EMPLOYEE.email || ''}\`,
-        \`URL;TYPE=WORK:\${EMPLOYEE.website || 'https://iinvty.com'}\`
+        \`TEL;TYPE=WORK,VOICE,PREF:\${EMPLOYEE.phone || '+91 94441 00968'}\`,
+        \`EMAIL;TYPE=INTERNET,WORK,PREF:\${EMPLOYEE.email || 'iinvtycorporate@gmail.com'}\`,
+        \`URL;TYPE=WORK:\${EMPLOYEE.website || 'https://iinvty.com'}\`,
+        \`URL;TYPE=LinkedIn:\${EMPLOYEE.linkedin || ''}\`,
+        \`X-SOCIALPROFILE;TYPE=linkedin:\${EMPLOYEE.linkedin || ''}\`,
+        \`URL;TYPE=Instagram:\${EMPLOYEE.instagram || ''}\`,
+        \`X-SOCIALPROFILE;TYPE=instagram:\${EMPLOYEE.instagram || ''}\`,
+        'NOTE:IINVTY - INVENT • INNOVATE • INSPIRE (Sustainable Workplace Solutions & ESG Consulting)',
+        \`REV:\${new Date().toISOString()}\`,
+        'END:VCARD'
       ];
 
-      if (whatsappDigits) {
-        lines.push(\`URL;TYPE=WhatsApp:https://wa.me/\${whatsappDigits}\`);
-        lines.push(\`X-SOCIALPROFILE;TYPE=whatsapp:https://wa.me/\${whatsappDigits}\`);
-      }
-      if (EMPLOYEE.linkedin) {
-        lines.push(\`URL;TYPE=LinkedIn:\${EMPLOYEE.linkedin}\`);
-        lines.push(\`X-SOCIALPROFILE;TYPE=linkedin:\${EMPLOYEE.linkedin}\`);
-      }
-      if (EMPLOYEE.instagram) {
-        lines.push(\`URL;TYPE=Instagram:\${EMPLOYEE.instagram}\`);
-        lines.push(\`X-SOCIALPROFILE;TYPE=instagram:\${EMPLOYEE.instagram}\`);
-      }
-      if (EMPLOYEE.photo) {
-        lines.push(\`PHOTO;VALUE=URI:\${EMPLOYEE.photo}\`);
+      return lines.join('\\r\\n') + '\\r\\n';
+    }
+
+    /* UNIVERSAL SAVE CONTACT HANDLER */
+    function handleSaveContact(event, vcfUrl) {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+      // On iOS Safari, navigating directly to a data URI triggers the native Add Contact modal
+      if (isIOS) {
+        if (event) event.preventDefault();
+        const vcardStr = getVCardString();
+        const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcardStr);
+        window.location.href = dataUri;
+        return;
       }
 
-      lines.push(\`NOTE:Digital Business Card for \${EMPLOYEE.name} - IINVTY (INVENT • INNOVATE • INSPIRE)\`);
-      lines.push(\`REV:\${new Date().toISOString()}\`);
-      lines.push('END:VCARD');
+      // If opened locally via file://, download using Blob
+      if (window.location.protocol === 'file:') {
+        if (event) event.preventDefault();
+        downloadVCardBlob();
+        return;
+      }
 
-      const vcardContent = lines.join('\\r\\n');
-      const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8;' });
+      // On standard HTTP/HTTPS (GitHub Pages), the <a> tag natively downloads the static .vcf file
+    }
+
+    /* BLOB DOWNLOAD FALLBACK (Local file:// or legacy desktop) */
+    function downloadVCardBlob() {
+      const vcardStr = getVCardString();
+      const blob = new Blob([vcardStr], { type: 'text/vcard;charset=utf-8;' });
       const filename = \`\${EMPLOYEE.name}.vcf\`;
 
       if (typeof navigator !== 'undefined' && navigator.msSaveBlob) {
@@ -1271,11 +1312,15 @@ function generateCardHtml(member) {
 </html>`;
 }
 
-// Generate the 3 separate files
+// Generate the 3 separate files (HTML + static VCF for each member)
 TEAM_MEMBERS.forEach(m => {
   const filePath = path.join(baseDir, m.filename);
   fs.writeFileSync(filePath, generateCardHtml(m), 'utf8');
-  console.log('Successfully generated:', m.filename);
+  console.log('Successfully generated HTML:', m.filename);
+
+  const vcfPath = path.join(baseDir, `${m.id}.vcf`);
+  fs.writeFileSync(vcfPath, generateVCardContent(m), 'utf8');
+  console.log('Successfully generated VCF:', `${m.id}.vcf`);
 });
 
 // Update index.html directory hub
