@@ -25,15 +25,16 @@ const TEAM_MEMBERS = [
   {
     id: 'prabhakaran',
     filename: 'prabhakaran.html',
-    name: 'Prabhakaran',
+    aliases: ['prabhakaran-veeraragavan.html'],
+    name: 'Prabhakaran Veeraragavan',
     title: 'Customer Relationship Head',
     email: 'iinvtycorporate@gmail.com',
-    phone: '+91 94441 00968',
+    phone: '+91 99401 58601',
     website: 'https://iinvty.com',
-    linkedin: 'https://www.linkedin.com/company/iinvt',
+    linkedin: 'https://www.linkedin.com/in/prabhakaran-veeraragavan-591626145?utm_source=share_via&utm_content=profile&utm_medium=member_android',
     instagram: 'https://www.instagram.com/iinvtycorporate',
     photo: '',
-    initials: 'P',
+    initials: 'PV',
     firstName: 'Prabhakaran'
   },
   {

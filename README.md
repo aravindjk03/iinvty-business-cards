@@ -5,7 +5,7 @@ Official digital business cards for the **IINVTY** team.
 
 ## Live Cards:
 - **Dr K Sathyanarayanan** (*Sathya Narayan*) (Audit and Training Wing Head): [`sathya.html`](sathya.html) | [`sathyanarayan.html`](sathyanarayan.html)
-- **Prabhakaran** (Customer Relationship Head): [`prabhakaran.html`](prabhakaran.html)
+- **Prabhakaran Veeraragavan** (Customer Relationship Head): [`prabhakaran.html`](prabhakaran.html)
 - **Aravind J** (Design & Innovation Lead): [`aravind.html`](aravind.html)
 - **Directory Hub**: [`index.html`](index.html)
 
