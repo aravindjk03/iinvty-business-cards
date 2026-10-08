@@ -40,9 +40,9 @@ const TEAM_MEMBERS = [
     name: 'Aravind J',
     title: 'Design & Innovation Lead',
     email: 'iinvtycorporate@gmail.com',
-    phone: '+91 94441 00968',
+    phone: '+91 95145 47283',
     website: 'https://iinvty.com',
-    linkedin: 'https://www.linkedin.com/company/iinvt',
+    linkedin: 'https://www.linkedin.com/in/aravindh-jeyakumar-952986221?utm_source=share_via&utm_content=profile&utm_medium=member_android',
     instagram: 'https://www.instagram.com/iinvtycorporate',
     photo: '',
     initials: 'AJ',
@@ -939,7 +939,244 @@ function generateCardHtml(member) {
       object-fit: contain;
     }
 
-    <h2 class="sheet-title" id="sheetTitle">Add ${member.firstName} to your contacts?</h2>
+    .sheet-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #061a5c;
+      margin: 0 0 6px 0;
+    }
+
+    .sheet-subtitle {
+      font-size: 13.5px;
+      color: #64748b;
+      margin: 0 0 22px 0;
+      line-height: 1.45;
+    }
+
+    .sheet-actions {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .sheet-btn {
+      flex: 1;
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .sheet-btn-later {
+      background: #e8efff;
+      color: #061a5c;
+    }
+
+    .sheet-btn-later:hover {
+      background: #d7e4ff;
+    }
+
+    .sheet-btn-save {
+      background: #0a3cff;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(10, 60, 255, 0.35);
+    }
+
+    .sheet-btn-save:hover {
+      background: #061a5c;
+      box-shadow: 0 6px 18px rgba(6, 26, 92, 0.45);
+    }
+
+    .toast-notice {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: #061a5c;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-notice.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BRAND BADGE: IINVTY -->
+  <aside class="top-brand-badge" aria-label="Company Branding">
+    <img src="${logoBase64}" alt="IINVTY" />
+    <span>IINVTY</span>
+  </aside>
+
+  <!-- BUSINESS CARD CONTAINER -->
+  <main class="card-outer-scene">
+    <div class="card-wrap">
+      
+      <!-- BUSINESS CARD (Responsive: 7:4 landscape on desktop, tailored vertical on mobile) -->
+      <article class="business-card" id="businessCard" aria-label="Digital Business Card for ${member.name}">
+        
+        <!-- LEFT / TOP BLUE PANEL -->
+        <div class="card-left">
+          <!-- Two faint translucent decorative circles -->
+          <div class="faint-circle circle-top-left" aria-hidden="true"></div>
+          <div class="faint-circle circle-bottom-right" aria-hidden="true"></div>
+
+          <!-- Top-Left: Logo Square with uploaded IINVTY Logo + IINVTY -->
+          <div class="brand-group">
+            <div class="logo-square" title="IINVTY">
+              <img src="${logoBase64}" alt="i" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+              <span class="logo-i-fallback" aria-hidden="true">i</span>
+            </div>
+            <span class="brand-name-text">IINVTY</span>
+          </div>
+
+          <!-- Center: Employee Round Photo (White border, soft shadow) or Initials -->
+          <div class="photo-area">
+            <div class="photo-frame">
+              ${
+                member.photo
+                  ? `<img id="cardPhotoImg" class="employee-photo-img" src="${member.photo}" alt="${member.name}" />`
+                  : `<span id="cardInitials" class="employee-initials">${member.initials}</span>`
+              }
+            </div>
+          </div>
+
+          <!-- FULL MOTTO: INVENT • INNOVATE • INSPIRE -->
+          <div class="brand-tagline-motto" aria-label="Company Motto">INVENT &bull; INNOVATE &bull; INSPIRE</div>
+        </div>
+
+        <!-- RIGHT / BOTTOM WHITE PANEL -->
+        <div class="card-right">
+          <!-- Centered Background IINVTY Logo Watermark on the White Layer -->
+          <div class="white-layer-watermark" aria-hidden="true">
+            <img src="${logoBase64}" alt="" />
+          </div>
+
+          <div class="emp-meta-block">
+            <h1 class="emp-name" id="cardName">${member.name}</h1>
+            <div class="emp-title" id="cardTitle">${member.title}</div>
+            <div class="blue-accent-line" aria-hidden="true"></div>
+
+            <!-- Email with Mail Icon -->
+            <a href="mailto:${member.email}" class="emp-email-link" id="cardEmailLink" title="Send Email">
+              <svg class="email-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#0a3cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+              <span class="email-label-text" id="cardEmail">${member.email}</span>
+            </a>
+          </div>
+
+          <!-- Row of Four Round Blue Icon Buttons (Website, LinkedIn, Instagram, Email) -->
+          <div class="icon-button-row">
+            <!-- 1. Separate Website Icon (Globe) -->
+            <a href="${member.website}" id="btnWebsite" class="round-blue-btn" aria-label="Visit IINVTY Website" target="_blank" rel="noopener noreferrer" title="Website: iinvty.com">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </a>
+
+            <!-- 2. LinkedIn -->
+            <a href="${member.linkedin}" id="btnLinkedin" class="round-blue-btn" aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+
+            <!-- 3. Instagram -->
+            <a href="${member.instagram}" id="btnInstagram" class="round-blue-btn" aria-label="Instagram Profile" target="_blank" rel="noopener noreferrer" title="Instagram: @iinvtycorporate">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+
+            <!-- 4. Email (direct mailto) -->
+            <a href="mailto:${member.email}" id="btnMailto" class="round-blue-btn" aria-label="Send Email Direct" title="Email: ${member.email}">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Bottom Right Brand: IINVTY -->
+          <div class="bottom-right-domain">IINVTY</div>
+        </div>
+      </article>
+
+      <!-- FULL-WIDTH SAVE CONTACT BUTTON (UNDER THE CARD) -->
+      <div class="save-contact-container">
+        <a href="${member.id}.vcf" download="${member.name}.vcf" class="save-contact-button" id="btnSaveContact" onclick="handleSaveContact(event, '${member.id}.vcf')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span>Save ${member.firstName}'s Contact</span>
+        </a>
+
+        <div class="share-info-bar">
+          <span>Card Link: <code>${member.filename}</code></span>
+          <button type="button" class="copy-link-btn" onclick="copyCardUrl()" title="Copy direct link">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Copy Link</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM SHEET MODAL (SLIDES UP 0.7 SECONDS AFTER PAGE LOAD) -->
+  <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeBottomSheet()" aria-hidden="true"></div>
+  
+  <div class="bottom-sheet" id="bottomSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-grabber" aria-hidden="true"></div>
+    <div class="sheet-body">
+      <div class="sheet-badge-wrap">
+        <img src="${logoBase64}" alt="IINVTY" class="sheet-badge-img" />
+      </div>
+      <h2 class="sheet-title" id="sheetTitle">Add ${member.firstName} to your contacts?</h2>
     <p class="sheet-subtitle">Save ${member.name}'s contact details directly to your phone.</p>
     
     <div class="sheet-actions">
