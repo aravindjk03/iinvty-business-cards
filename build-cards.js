@@ -9,7 +9,9 @@ const TEAM_MEMBERS = [
   {
     id: 'sathya',
     filename: 'sathya.html',
+    aliases: ['sathyanarayan.html', 'sathyanarayanan.html'],
     name: 'Dr K Sathyanarayanan',
+    subtitle: 'Sathya Narayan',
     title: 'Audit and Training Wing Head',
     email: 'iinvtycorporate@gmail.com',
     phone: '+91 94441 00968',
@@ -102,6 +104,9 @@ function generateCardHtml(member) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>${member.name} | IINVTY Digital Business Card</title>
 
@@ -207,10 +212,20 @@ function generateCardHtml(member) {
       background: radial-gradient(circle, rgba(232, 239, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 70%, transparent 100%);
     }
 
+    /* Base Business Card styles (always defined, never unstyled) */
+    .business-card {
+      width: 100%;
+      background: #ffffff;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
     /* ==========================================================
        DESKTOP & TABLET VIEW (Container query cqw, 7:4 landscape)
        ========================================================== */
-    @media (min-width: 581px) {
+    @media (min-width: 580px) {
       .business-card {
         width: 100%;
         aspect-ratio: 7 / 4;
@@ -869,9 +884,7 @@ function generateCardHtml(member) {
     .sheet-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(6, 26, 92, 0.65);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      background: rgba(6, 26, 92, 0.4);
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
@@ -898,10 +911,30 @@ function generateCardHtml(member) {
       transform: translateY(105%);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       box-sizing: border-box;
+      position: relative;
     }
 
     .bottom-sheet.open {
       transform: translateY(0);
+    }
+
+    .sheet-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      line-height: 1;
+      color: #8a9bb2;
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.2s ease;
+      z-index: 5;
+    }
+
+    .sheet-close-btn:hover {
+      color: #061a5c;
     }
 
     .sheet-grabber {
@@ -1171,17 +1204,19 @@ function generateCardHtml(member) {
   <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeBottomSheet()" aria-hidden="true"></div>
   
   <div class="bottom-sheet" id="bottomSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <button type="button" class="sheet-close-btn" onclick="closeBottomSheet()" aria-label="Close">&times;</button>
     <div class="sheet-grabber" aria-hidden="true"></div>
     <div class="sheet-body">
       <div class="sheet-badge-wrap">
         <img src="${logoBase64}" alt="IINVTY" class="sheet-badge-img" />
       </div>
       <h2 class="sheet-title" id="sheetTitle">Add ${member.firstName} to your contacts?</h2>
-    <p class="sheet-subtitle">Save ${member.name}'s contact details directly to your phone.</p>
-    
-    <div class="sheet-actions">
-      <button type="button" class="sheet-btn sheet-btn-later" onclick="closeBottomSheet()">Later</button>
-      <a href="${member.id}.vcf" download="${member.name}.vcf" class="sheet-btn sheet-btn-save" onclick="handleSaveContact(event, '${member.id}.vcf'); closeBottomSheet();">Save</a>
+      <p class="sheet-subtitle">Save ${member.name}'s contact details directly to your phone.</p>
+      
+      <div class="sheet-actions">
+        <button type="button" class="sheet-btn sheet-btn-later" onclick="closeBottomSheet()">Later</button>
+        <a href="${member.id}.vcf" download="${member.name}.vcf" class="sheet-btn sheet-btn-save" onclick="handleSaveContact(event, '${member.id}.vcf'); closeBottomSheet();">Save</a>
+      </div>
     </div>
   </div>
 
@@ -1353,15 +1388,30 @@ function generateCardHtml(member) {
 </html>`;
 }
 
-// Generate the 3 separate files (HTML + static VCF for each member)
+// Generate the separate files (HTML + static VCF for each member + aliases)
 TEAM_MEMBERS.forEach(m => {
+  const htmlContent = generateCardHtml(m);
+  const vcfContent = generateVCardContent(m);
+
+  // Primary HTML & VCF
   const filePath = path.join(baseDir, m.filename);
-  fs.writeFileSync(filePath, generateCardHtml(m), 'utf8');
+  fs.writeFileSync(filePath, htmlContent, 'utf8');
   console.log('Successfully generated HTML:', m.filename);
 
   const vcfPath = path.join(baseDir, `${m.id}.vcf`);
-  fs.writeFileSync(vcfPath, generateVCardContent(m), 'utf8');
+  fs.writeFileSync(vcfPath, vcfContent, 'utf8');
   console.log('Successfully generated VCF:', `${m.id}.vcf`);
+
+  // Aliases (e.g. sathyanarayan.html, sathyanarayanan.html)
+  if (m.aliases) {
+    m.aliases.forEach(alias => {
+      fs.writeFileSync(path.join(baseDir, alias), htmlContent, 'utf8');
+      console.log('Successfully generated Alias HTML:', alias);
+      const aliasVcf = alias.replace('.html', '.vcf');
+      fs.writeFileSync(path.join(baseDir, aliasVcf), vcfContent, 'utf8');
+      console.log('Successfully generated Alias VCF:', aliasVcf);
+    });
+  }
 });
 
 // Update index.html directory hub
@@ -1369,6 +1419,9 @@ const indexHubHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IINVTY - Team Digital Business Cards</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1463,11 +1516,11 @@ const indexHubHtml = `<!DOCTYPE html>
     <div class="hub-subtitle">INVENT &bull; INNOVATE &bull; INSPIRE</div>
 
     <div class="cards-list">
-${TEAM_MEMBERS.map(m => `      <a href="${m.filename}" class="member-card-link">
+${TEAM_MEMBERS.map(m => `      <a href="${m.filename}?v=3" class="member-card-link">
         <div class="member-info">
           <div class="member-avatar">${m.initials}</div>
           <div>
-            <div class="member-name">${m.name}</div>
+            <div class="member-name">${m.name}${m.subtitle ? ` <span style="font-size:13px;font-weight:600;color:#64748b;">(${m.subtitle})</span>` : ''}</div>
             <div class="member-role">${m.title}</div>
           </div>
         </div>
